@@ -16,9 +16,9 @@ Dependencies
 ------------
 
  - HTML5 
- - [http://jquery.com/][1]	  
- - [http://jqueryui.com/][1]	(optional)   
- - [http://knockoutjs.com/][1]	(optional)
+ - [http://jquery.com/]	  
+ - [http://jqueryui.com/]	(optional)   
+ - [http://knockoutjs.com/]	(optional)
 Usage
 -----
 
@@ -54,8 +54,11 @@ Usage
 
  
 
-    $("#file").uploaderList({url : "http://myserver.com/"});
+    $("#file").uploadlist({url : "http://myserver.com/"});
 
-That it's all Enjoy.
+*That it's all Enjoy.*
 
+License
+-------
 
+***GNU GPLv3.***
