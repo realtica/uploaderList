@@ -1,7 +1,12 @@
 JQuery Uploader List
 ====================
 
-JQuery plugin for add multiple files at once several times into list.
+ jQuery plugin to upload multiple files, one after the other using a queue into list.
+
+Sponsor
+-------
+
+[http://www.cloudware360.com/]
 
 Features
 --------
