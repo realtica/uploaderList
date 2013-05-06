@@ -1,0 +1,18 @@
+@CHARSET "ISO-8859-1";
+
+.uploaderListItem {
+	margin: 5px;
+	padding: 2px;
+	font-size: 10px;
+}
+
+.uploaderList {
+	border-style: solid;
+	border-width: 1px;
+	text-align: center;
+}
+
+.uploaderListFileName {
+	font-size: 12px;
+	font-weight: bold;
+}

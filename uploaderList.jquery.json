@@ -1,0 +1,37 @@
+{
+    "name": "uploaderList",
+    "title": "JQuery Uploader List",
+    "description": "jQuery plugin for upload multiple files ay once.",
+    "keywords": [
+        "file",
+        "ajax",
+        "upload",
+        "jquery"
+    ],
+    "version": "1.0",
+    "author": {
+        "name": "Remy Alain Ticona Carbajal",
+        "url": "https://remyticona.com"
+    },
+    "maintainers": [
+        {
+            "name": "Remy",
+            "email": "realtica@gmail.com",
+            "url": "https://remyticona.com"
+        }
+    ],
+    "licenses": [
+        {
+            "type": "GNU GPLv3",
+            "url": "http://www.gnu.org/licenses/gpl.html"
+        }
+    ],
+    "bugs": "https://github.com/jquery/uploaderList/issues",
+    "homepage": "https://github.com/jquery/uploaderList",
+    "docs": "https://github.com/jquery/uploaderList",
+    "download": "http://code.jquery.com/#uploaderList",
+    "dependencies": {
+        "jquery": ">=1.9",
+        "knockoutjs":">=2.2.1"
+    }
+}
