@@ -1,14 +1,14 @@
 {
     "name": "uploaderList",
     "title": "JQuery Uploader List",
-    "description": "jQuery plugin for upload multiple files ay once.",
+    "description": "jQuery plugin to upload multiple files, one after the other using a queue into list.",
     "keywords": [
         "file",
         "ajax",
         "upload",
         "jquery"
     ],
-    "version": "0.1.0",
+    "version": "0.1.1",
     "author": {
         "name": "Remy Alain Ticona Carbajal",
         "url": "https://remyticona.com"
@@ -17,7 +17,7 @@
         {
             "name": "Remy",
             "email": "realtica@gmail.com",
-            "url": "https://remyticona.com"
+            "url": "http://remyticona.com"
         }
     ],
     "licenses": [
