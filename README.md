@@ -17,8 +17,9 @@ Dependencies
 
  * HTML5. 
  * [http://jquery.com/]	  
- * [http://jqueryui.com/]	-optional
- * [http://knockoutjs.com/]	-optional
+ * [http://jqueryui.com/]	optional
+ * [http://knockoutjs.com/]	optional
+
 Usage
 -----
 
