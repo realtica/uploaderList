@@ -15,10 +15,10 @@ Features
 Dependencies
 ------------
 
- - HTML5 
- - [http://jquery.com/]	  
- - [http://jqueryui.com/]	(optional)   
- - [http://knockoutjs.com/]	(optional)
+ * HTML5. 
+ * [http://jquery.com/]	  
+ * [http://jqueryui.com/]	-optional
+ * [http://knockoutjs.com/]	-optional
 Usage
 -----
 
