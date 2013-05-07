@@ -1,7 +1,7 @@
 JQuery Uploader List
 ====================
 
- jQuery plugin to upload multiple files, one after the other using a queue into list.
+ jQuery plugin to upload a file queue.
 
 Sponsor
 -------
@@ -11,17 +11,17 @@ Sponsor
 Features
 --------
 
- - Allows upload configurable
-   simoultaneos upload(default: 2).
- - Allows added extra data.
- - You can rename file name (default: "file").
- - Customizable css Items.
+ - Configurable upload
+ - Options for simultaneous upload (default: 2).
+ - Allows adding extra data.
+ - Allows file rename.
+ - Customizable through css.
 
 Dependencies
 ------------
 
  * HTML5. 
- * [http://jquery.com/]	  
+ * [http://jquery.com/]   
  * [http://jqueryui.com/]	optional
  * [http://knockoutjs.com/]	optional
 
@@ -62,9 +62,11 @@ Usage
 
     $("#file").uploadlist({url : "http://myserver.com/"});
 
-*That it's all Enjoy.*
+* That’s all. Enjoy! *
 
 License
 -------
 
 ***GNU GPLv3.***
+
+
