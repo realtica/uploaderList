@@ -1,114 +1,97 @@
 (function($) {
-	
-	// ////////MODEL/////////////
-	var settings;
-	var count = -1;
-	$("#file").bind("change", function(e) {
-		
-		settings.files = e.target.files;
-		for ( var i = 0; i < settings.files.length; i++) {
-			console.dir(settings.files[i]);
-			upload = settings.files[i];
-			count++;
-			upload.count = count;
-			methods.uploadFile(upload);
-		}
-	});
+  
+//////////MODEL/////////////
+  var settings={inputField:"#file"},queueList=[];
+	var count = -1,index_list=0;
+  
 	var methods = {
-		init : function(options) {
-			
-			return this.each(function() {
-				
-				settings = $.extend({
-					activeUploads : 0,
-					simultaneousUploads : 1,
-					inputField : 'file',
+		init : function(options) {			
+			return this.each(function() {				
+				settings = $.extend({  
+                  automatic:true,
+                  inputField:"#file",
+                  activeUploads:0,
+					simultaneousUploads : 2,					
 					uploadsQueue : [],
 					noop : function() {
 					}
 				}, options);
 			});
 		},
-		
-		appendData:function(data){
-			return this.each(function() {
-				
-				settings = $.extend(settings, data);
-			});
-		},
-		
-		options : function() {
-			return settings;
-		},
-		destroy : function() {
-			
-			return this.each(function() {
-				
-				var $this = $(this), data = $this.data('uploadlist');
-				
+        options:function(key,value){       
+          var option = {};
+          option[key] = value; 
+          console.log(option);
+          settings = $.extend(settings, option);
+          return settings;
+        },
+        start:function(){
+          var index=0;
+          for(var j=index_list;j<queueList.length;j++){
+            //methods.OnFileAdded(upload);
+            methods.uploadFile(queueList[j]);
+            index=j+1;
+              }  
+          index_list=index;
+        },	
+          
+		destroy : function() {			
+			return this.each(function() {				
+				var $this = $(this), data = $this.data('uploadlist');				
 				// Namespacing FTW
 				$(window).unbind('.uploadlist');
 				data.uploadlist.remove();
-				$this.removeData('uploadlist');
-				
-			});
-			
+				$this.removeData('uploadlist');				
+			});			
 		},
 		
 		OnFileAdded : function(file) {
-			console.log("Archivo agregado: " + file.name);
-			
+			console.log("Archivo agregado: " + file.name);			
 			viewModel.model.push({
-				file_name : file.name,
+              file_name:file.name,
 				progress : ko.observable(0),
 				loaded : ko.observable(0),
 				total : ko.observable(0)
-			});
-			
+			});         
 		},
 		OnStart : function(filename) {
 			console.log("Upload Start: " + filename);
 		},
-		OnProgress : function(total, loaded, index, file_name) {
+		OnProgress : function(total, loaded,index,file_name) {          
 			var obj = {
-				file_name : file_name + ": ",
+              file_name:file_name+": ",
 				progress : (loaded / total) * 100,
 				loaded : getSize(loaded),
 				total : getSize(total)
 			};
-			viewModel.model.replace(viewModel.model()[index], obj);
-			
+			viewModel.model.replace(viewModel.model()[index], obj);			
 			console.log("PROGRESS: " + obj.progress + "|" + loaded + "/" + total);
 		},
 		OnCompleted : function() {
 			
 		},
+        OnQueueCompleted : function() {
+			
+		},
 		uploadFile : function(upload) {
-			// var manager = this.options();
-			
-			methods.OnFileAdded(upload);
-			
+			// var manager = this.options();		
 			// Queue upload if maximum simultaneous uploads reached:
 			if (settings.activeUploads === settings.simultaneousUploads) {
 				console.log('Queue upload: ' + upload.name);
 				settings.uploadsQueue.push(upload);
 				return;
-			}
-			
+			}			
 			methods.ajaxUpload(upload);
 		},
 		ajaxUpload : function(upload) {
-			var xhr, formData, prop, data = settings.data, key = settings.key || 'file', index;
-			index = upload.count;
+			var xhr, formData, prop, data = settings.data, key = settings.key || 'file',index;
+			index=upload.count;
 			console.log('Beging upload: ' + upload.name);
-			settings.activeUploads += 1;
-			
-			xhr = new window.XMLHttpRequest();
-			
-			formData = new window.FormData();
-			
+			settings.activeUploads += 1;			
+			xhr = new window.XMLHttpRequest();            
+			formData = new window.FormData();			
 			xhr.open('POST', settings.url);
-			
+          
 			// Triggered when upload starts:
 			xhr.upload.onloadstart = function() {
 				// File size is not reported during start!
@@ -118,15 +101,15 @@
 			
 			// Triggered many times during upload:
 			xhr.upload.onprogress = function(event) {
-				// console.dir(event);
+				//console.dir(event);
 				if (!event.lengthComputable) {
 					return;
 				}
 				
 				// Update file size because it might be bigger than reported by
 				// the fileSize:
-				console.log("File: " + index);
-				methods.OnProgress(event.total, event.loaded, index, upload.name);
+              console.log("File: "+index);
+				methods.OnProgress(event.total, event.loaded,index,upload.name);
 			};
 			
 			// Triggered when upload is completed:
@@ -158,14 +141,34 @@
 					}
 				}
 			}
+			
 			// Append file data:
 			formData.append(key, upload);
+			
 			// Initiate upload:
 			xhr.send(formData);
 		}
-	};
+	}; 
+  
+	$(settings.inputField).bind("change", function(e) {		
+		settings.files = e.target.files;
+		for ( var i = 0; i < settings.files.length; i++) {
+			console.dir(settings.files[i]);
+			upload = settings.files[i];
+          count++;
+          upload.count=count;
+          //upload.data=settings.data;
+          methods.OnFileAdded(upload);
+          if(settings.automatic)
+          methods.uploadFile(upload);
+          else
+          queueList.push(upload);          
+		}
+	});
+  
+   
 	
-	$.fn.uploadlist = function(method) {
+	$.fn.uploaderList = function(method) {
 		
 		if (methods[method]) {
 			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -176,27 +179,26 @@
 		}
 		
 	};
-	// ////////MODEL/////////////
-	// ////////VIEW-MODEL/////////////
-	var viewModel = {
-		model : ko.observableArray([])
-	};
-	
-	// Define a new knockout binding to update any progress bar.
-	ko.bindingHandlers.updateProgress = {
-		update : function(element, valueAccessor) {
-			$(element).progressbar();
-			var value = ko.utils.unwrapObservable(valueAccessor());
-			$(element).progressbar('option', 'value', value);
-		}
-	};
-	ko.applyBindings(viewModel);
-	// ////////VIEW-MODEL/////////////
-	// /////////HELPERS////////////////
-	function getSize(bytes) {
-		var sizes = [ 'n/a', 'bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB' ];
-		var i = +Math.floor(Math.log(bytes) / Math.log(1024));
-		return (bytes / Math.pow(1024, i)).toFixed(i ? 1 : 0) + ' ' + sizes[isNaN(bytes) ? 0 : i + 1];
+//////////MODEL/////////////
+//////////VIEW-MODEL/////////////
+var viewModel = {
+ 
+	model : ko.observableArray([])
+};
+  
+// Define a new knockout binding to update any progress bar.
+ko.bindingHandlers.updateProgress = {
+	update : function(element, valueAccessor) {
+		$(element).progressbar();
+		var value = ko.utils.unwrapObservable(valueAccessor());
+		$(element).progressbar('option', 'value', value);
 	}
-	// /////////HELPERS////////////////
+};
+ko.applyBindings(viewModel);  
+//////////VIEW-MODEL/////////////
+function getSize(bytes) {
+    var sizes = [ 'n/a', 'bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+    var i = +Math.floor(Math.log(bytes) / Math.log(1024));
+    return  (bytes / Math.pow(1024, i)).toFixed( i ? 1 : 0 ) + ' ' + sizes[ isNaN( bytes ) ? 0 : i+1 ];
+}  
 })(jQuery);
